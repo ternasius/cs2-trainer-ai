@@ -6,11 +6,9 @@ from google import genai
 # Load environment variables
 load_dotenv()
 
-# --------------------------------------------------------------------
-# 🔹 Check Elasticsearch Connection
-# --------------------------------------------------------------------
 def test_elasticsearch():
-    print("🔹 Testing Elasticsearch connection...")
+    """Check connection to Elasticsearch"""
+    print("Testing Elasticsearch connection...")
 
     es_url = os.getenv("ELASTIC_URL")
     es_api_key = os.getenv("ELASTIC_API_KEY")
@@ -28,11 +26,9 @@ def test_elasticsearch():
         print("❌ Failed to connect to Elasticsearch")
         print(e)
 
-# --------------------------------------------------------------------
-# 🔹 Check Vertex AI (Gemini) Connection
-# --------------------------------------------------------------------
 def test_vertex_ai():
-    print("\n🔹 Testing Vertex AI / Gemini connection...")
+    """Check connection to Vertex AI"""
+    print("Testing Vertex AI / Gemini connection...")
 
     os.environ["GOOGLE_CLOUD_PROJECT"] = os.getenv("GCP_PROJECT_ID")
     os.environ["GOOGLE_CLOUD_LOCATION"] = os.getenv("GCP_LOCATION")
@@ -55,9 +51,6 @@ def test_vertex_ai():
         print("❌ Vertex AI connection failed")
         print(f"Error: {e}")
 
-# --------------------------------------------------------------------
-# 🔹 Run both tests
-# --------------------------------------------------------------------
 if __name__ == "__main__":
     test_elasticsearch()
     test_vertex_ai()

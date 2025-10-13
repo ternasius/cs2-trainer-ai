@@ -5,10 +5,12 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# If you are using Vertex AI (not just Gemini Developer API)
-USE_VERTEX = True  # pass this to Client
+os.environ["GOOGLE_CLOUD_PROJECT"] = os.getenv("GCP_PROJECT_ID")
+os.environ["GOOGLE_CLOUD_LOCATION"] = os.getenv("GCP_LOCATION")
+os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "True"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
 
-client = genai.Client(api_key=os.getenv("GCP_API_KEY"))
+client = genai.Client()
 
 async def generate_recommendations(analysis: dict):
     try:
@@ -22,7 +24,7 @@ async def generate_recommendations(analysis: dict):
 
         response = client.models.generate_content(
             model="gemini-2.0-flash",
-            contents=[{"role": "user", "content": prompt}],
+            contents=prompt,
         )
 
         return response.text

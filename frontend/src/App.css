@@ -1,0 +1,149 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #1a1a1a;
+  color: #fff;
+}
+
+.App {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.container {
+  background-color: #2d2d2d;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  max-width: 800px;
+  width: 100%;
+}
+
+h1 {
+  text-align: center;
+  color: #ff6b35;
+  margin-bottom: 30px;
+  font-size: 2.5rem;
+}
+
+.input-section {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+input[type="text"] {
+  padding: 12px;
+  font-size: 16px;
+  width: 300px;
+  border: 2px solid #555;
+  border-radius: 5px;
+  background-color: #3d3d3d;
+  color: #fff;
+  margin-right: 10px;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: #ff6b35;
+}
+
+button {
+  padding: 12px 24px;
+  font-size: 16px;
+  background-color: #ff6b35;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover:not(:disabled) {
+  background-color: #e55a2b;
+}
+
+button:disabled {
+  background-color: #666;
+  cursor: not-allowed;
+}
+
+.loading {
+  text-align: center;
+  color: #ff6b35;
+  font-size: 1.2rem;
+  margin: 20px 0;
+}
+
+.error {
+  background-color: #4d1a1a;
+  color: #ff6666;
+  padding: 15px;
+  border-radius: 5px;
+  margin: 20px 0;
+  text-align: center;
+  border-left: 4px solid #ff4444;
+}
+
+.results {
+  margin-top: 30px;
+}
+
+.weak-areas {
+  background-color: #3d1a1a;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  border-left: 4px solid #ff4444;
+}
+
+.recommendations {
+  background-color: #1a3d1a;
+  padding: 20px;
+  border-radius: 8px;
+  border-left: 4px solid #44ff44;
+}
+
+.skill-diff {
+  margin: 10px 0;
+  padding: 8px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.focus-areas {
+  margin-top: 15px;
+  padding: 10px;
+  background-color: rgba(255, 107, 53, 0.2);
+  border-radius: 4px;
+}
+
+.recommendations-text {
+  white-space: pre-wrap;
+  line-height: 1.6;
+}
+
+h3 {
+  margin-top: 0;
+  color: #fff;
+  font-size: 1.3rem;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 20px;
+    margin: 10px;
+  }
+  
+  input[type="text"] {
+    width: 250px;
+    margin-bottom: 10px;
+  }
+  
+  h1 {
+    font-size: 2rem;
+  }
+}

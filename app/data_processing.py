@@ -1,8 +1,8 @@
 from app.reference_tables import premier_reference, faceit_reference
 
 def analyze_player_data(profile, matches):
-    rating = profile["profile"]["rating"]
-    ranks = profile["profile"]["ranks"]
+    rating = profile["rating"]
+    ranks = profile["ranks"]
 
     analysis = {
         "aim_diff": None,
