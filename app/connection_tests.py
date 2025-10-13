@@ -51,6 +51,40 @@ def test_vertex_ai():
         print("❌ Vertex AI connection failed")
         print(f"Error: {e}")
 
+def test_leetify():
+    """Check connection to Leetify API"""
+    print("Testing Leetify API connection...")
+    
+    api_key = os.getenv("LEETIFY_API_KEY")
+    base_url = os.getenv("LEETIFY_BASE_URL")
+    
+    if not api_key:
+        print("❌ Leetify API key missing (LEETIFY_API_KEY)")
+        return
+    
+    try:
+        import requests
+        
+        validate_url = f"{base_url}/api-key/validate"
+        headers = {
+            "Accept": "application/json",
+            "_leetify_key": api_key
+        }
+        
+        response = requests.get(validate_url, headers=headers, timeout=10)
+        
+        if response.status_code == 200:
+            print("✅ Leetify API connection successful!")
+        elif response.status_code == 401:
+            print("❌ Invalid Leetify API key")
+        else:
+            print(f"❌ Leetify API error: {response.status_code}")
+            
+    except Exception as e:
+        print("❌ Failed to connect to Leetify API")
+        print(e)
+
 if __name__ == "__main__":
     test_elasticsearch()
     test_vertex_ai()
+    test_leetify()
