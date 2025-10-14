@@ -122,8 +122,53 @@ button:disabled {
 }
 
 .recommendations-text {
-  white-space: pre-wrap;
   line-height: 1.6;
+}
+
+.recommendations-text p {
+  margin: 10px 0;
+}
+
+.recommendations-text li {
+  margin: 8px 0;
+  list-style: none;
+  position: relative;
+  padding-left: 20px;
+}
+
+.recommendations-text li:before {
+  content: "•";
+  color: #ff6b35;
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+}
+
+
+
+.recommendations-text strong {
+  color: #ff6b35;
+  font-weight: bold;
+}
+
+.recommendations-text em {
+  color: #ffaa80;
+  font-style: italic;
+}
+
+.performance-above {
+  color: #44ff44;
+  font-weight: bold;
+}
+
+.performance-average {
+  color: #ffaa00;
+  font-weight: bold;
+}
+
+.performance-below {
+  color: #ff4444;
+  font-weight: bold;
 }
 
 h3 {
