@@ -30,6 +30,12 @@ async def analyze_player_data(profile, matches, steam_id=None, save_json=False):
             (v for (low, high), v in premier_reference.items() if low <= premier <= high),
             None,
         )
+    else:
+        # Fallback to 10000-14999 premier range if no rank available
+        reference = next(
+            (v for (low, high), v in premier_reference.items() if low == 10000 and high == 14999),
+            None,
+        )
 
     if reference:
         # Calculate differences for all metrics

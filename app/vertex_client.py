@@ -51,7 +51,15 @@ async def generate_recommendations(analysis: dict):
         PLAYER DATA:
         {analysis}
 
-        Based on this data, provide 3-4 specific, actionable training recommendations. Focus on the biggest weaknesses first. Include specific workshop maps, aim trainers, or practice routines where relevant.
+        Based on this data, provide:
+        1. An overall performance score out of 100 compared to their rank average (consider all metrics, with more weight on core skills like aim, positioning, utility)
+        2. 3-4 specific, actionable training recommendations. Focus on the biggest weaknesses first. Include specific workshop maps, aim trainers, or practice routines where relevant.
+        
+        Format your response as:
+        **Overall Score: X/100**
+        
+        [Your recommendations here]
+        
         You should also refer to the player directly, as if you're talking to the player.
         """
 
