@@ -209,7 +209,12 @@ button:disabled {
   font-style: italic;
 }
 
-.performance-above {
+.performance-great {
+  color: #00ff00;
+  font-weight: bold;
+}
+
+.performance-good {
   color: #44ff44;
   font-weight: bold;
 }
@@ -219,9 +224,85 @@ button:disabled {
   font-weight: bold;
 }
 
-.performance-below {
+.performance-subpar {
+  color: #ff8844;
+  font-weight: bold;
+}
+
+.performance-poor {
   color: #ff4444;
   font-weight: bold;
+}
+
+.reference-value {
+  color: #888;
+  font-size: 0.85em;
+  font-weight: normal;
+  margin-left: 8px;
+}
+
+.reference-rank-prominent {
+  background-color: rgba(255, 107, 53, 0.15);
+  padding: 12px;
+  border-radius: 8px;
+  margin: 15px 0;
+  border: 2px solid #ff6b35;
+  color: #fff;
+  font-size: 1.1em;
+  text-align: center;
+  font-weight: 500;
+}
+
+.metric-container {
+  margin: 10px 0;
+}
+
+.hoverable-metric {
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hoverable-metric:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.metric-content {
+  flex: 1;
+}
+
+.dropdown-arrow {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  color: #ff6b35;
+  font-size: 12px;
+  margin-left: 10px;
+}
+
+.hoverable-metric:hover .dropdown-arrow {
+  opacity: 1;
+}
+
+.metric-definition {
+  background-color: rgba(255, 107, 53, 0.1);
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border-left: 3px solid #ff6b35;
+  font-size: 0.9em;
+  color: #ccc;
+  line-height: 1.4;
+}
+
+.metric-highlight {
+  background-color: rgba(255, 107, 53, 0.2);
+  color: #ff6b35;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-weight: 600;
 }
 
 .score-section {
@@ -230,7 +311,6 @@ button:disabled {
   border-radius: 8px;
   margin-bottom: 20px;
   text-align: center;
-  border-left: 4px solid #ff6b35;
 }
 
 .radial-progress {
@@ -244,7 +324,7 @@ button:disabled {
 }
 
 .progress-circle {
-  transition: stroke-dashoffset 1s ease-in-out;
+  transition: stroke-dashoffset 1.5s ease-out;
 }
 
 .score-text {

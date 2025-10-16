@@ -14,8 +14,16 @@ client = genai.Client()
 
 async def generate_recommendations(analysis: dict):
     try:
+        # Get metric names for readable output
+        metric_names = analysis.get('metric_names', {})
+        
         prompt = f"""
         You are a Counter-Strike 2 coach analyzing player performance data. Here's what each metric means:
+
+        IMPORTANT: Ignore the "leetify_tiers" field in the data - this is for frontend display only and should not be included in your analysis.
+
+        METRIC NAME CONVERSIONS (use these readable names in your response instead of the keys):
+        {metric_names}
 
         PERFORMANCE METRICS (all *_diff values show difference from rank average - negative = below average):
         - aim_diff: Difference from rank average aim rating
@@ -47,6 +55,8 @@ async def generate_recommendations(analysis: dict):
         - reaction_time_ms and utility_on_death_avg are large numbers, so the magnitude of their diff metrics should have less weight
         - flashbang_hit_foe_avg_duration, flashbang_hit_foe_per_flashbang, flashbang_hit_friend_per_flashbang, flashbang_leading_to_kill, he_foes_damage_avg, he_friends_damage_avg, and preaim are small numbers, so the magnitude of their diff metrics should have more weight
         - flashbang_hit_friend_per_flashbang, he_friends_damage_avg, preaim, reactin_time_ms, and utility_on_death_avg are all metrics that indicate above average performance if the diff is negative, since the numbers for these metrics decrease as skill increases
+
+        IMPORTANT: When mentioning metrics in your response, use the readable names from the conversion table above, not the technical keys. Wrap metric names in brackets like [Aim] or [Headshot Accuracy] to make them stand out.
 
         PLAYER DATA:
         {analysis}

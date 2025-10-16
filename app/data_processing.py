@@ -14,34 +14,80 @@ async def analyze_player_data(profile, matches, steam_id=None, save_json=False):
         "aim_diff": None,
         "positioning_diff": None,
         "utility_diff": None,
+        "reference_values": None,
+        "reference_rank": None,
+        "leetify_tiers": leetify_tiers,
+        "metric_names": {
+            "aim": "Aim",
+            "positioning": "Positioning", 
+            "utility": "Utility",
+            "accuracy_head": "Headshot Accuracy",
+            "accuracy_enemy_spotted": "Spotted Accuracy",
+            "spray_accuracy": "Spray Accuracy",
+            "counter_strafing_good_shots_ratio": "Counter-Strafing",
+            "preaim": "Crosshair Placement",
+            "reaction_time_ms": "Time to Damage",
+            "flashbang_hit_foe_per_flashbang": "Flash Effectiveness",
+            "he_foes_damage_avg": "Average HE Damage",
+            "utility_on_death_avg": "Utility on Death",
+            "ct_leetify": "CT Side Rating",
+            "t_leetify": "T Side Rating",
+            "clutch": "Clutch",
+            "opening": "Opening Duels"
+        }
     }
 
     faceit_elo = ranks.get("faceit_elo")
+    faceit_level = ranks.get("faceit")
     premier = ranks.get("premier")
 
     reference = None
+    reference_rank = None
+    
     if faceit_elo:
-        reference = next(
-            (v for (low, high), v in faceit_reference.items() if low <= faceit_elo <= high),
-            None,
-        )
+        for (low, high), v in faceit_reference.items():
+            if low <= faceit_elo <= high:
+                reference = v
+                reference_rank = f"Faceit Level {faceit_level}"
+                break
     elif premier:
-        reference = next(
-            (v for (low, high), v in premier_reference.items() if low <= premier <= high),
-            None,
-        )
+        for (low, high), v in premier_reference.items():
+            if low <= premier <= high:
+                reference = v
+                reference_rank = f"Premier {low}-{high}"
+                break
     else:
         # Fallback to 10000-14999 premier range if no rank available
-        reference = next(
-            (v for (low, high), v in premier_reference.items() if low == 10000 and high == 14999),
-            None,
-        )
+        for (low, high), v in premier_reference.items():
+            if low == 10000 and high == 14999:
+                reference = v
+                reference_rank = f"Premier: {low}-{high} (Default)"
+                break
 
     if reference:
+        # Store reference rank information
+        analysis["reference_rank"] = reference_rank
+        
+        # Store reference values for frontend display
+        analysis["reference_values"] = {
+            "aim": reference["Aim"],
+            "positioning": reference["Positioning"],
+            "utility": reference["Utility"],
+            "accuracy_head": reference["accuracy_head"],
+            "accuracy_enemy_spotted": reference["accuracy_enemy_spotted"],
+            "spray_accuracy": reference["spray_accuracy"],
+            "counter_strafing_good_shots_ratio": reference["counter_strafing_good_shots_ratio"],
+            "preaim": reference["preaim"],
+            "reaction_time_ms": reference["reaction_time_ms"],
+            "flashbang_hit_foe_per_flashbang": reference["flashbang_hit_foe_per_flashbang"],
+            "he_foes_damage_avg": reference["he_foes_damage_avg"],
+            "utility_on_death_avg": reference["utility_on_death_avg"]
+        }
+        
         # Calculate differences for all metrics
-        analysis["aim_diff"] = rating["aim"] - reference["Aim"]
-        analysis["positioning_diff"] = rating["positioning"] - reference["Positioning"]
-        analysis["utility_diff"] = rating["utility"] - reference["Utility"]
+        analysis["aim_diff"] = round(rating["aim"] - reference["Aim"], 2)
+        analysis["positioning_diff"] = round(rating["positioning"] - reference["Positioning"], 2)
+        analysis["utility_diff"] = round(rating["utility"] - reference["Utility"], 2)
         
         # Calculate differences for detailed metrics if they exist in rating
         detailed_metrics = [
@@ -54,8 +100,7 @@ async def analyze_player_data(profile, matches, steam_id=None, save_json=False):
         
         for metric in detailed_metrics:
             if metric in stats and metric in reference:
-                analysis[f"{metric}_diff"] = stats[metric] - reference[metric]
-                print(f"{metric}: stats={stats[metric]}, reference={reference[metric]}, agg={analysis[f'{metric}_diff']}")
+                analysis[f"{metric}_diff"] = round(stats[metric] - reference[metric], 2)
         
         # Add raw values for side-specific and situational metrics with tier evaluation
         
@@ -68,7 +113,7 @@ async def analyze_player_data(profile, matches, steam_id=None, save_json=False):
         raw_metrics = ['clutch', 'opening', 'ct_leetify', 't_leetify']
         for metric in raw_metrics:
             if metric in rating:
-                value = rating[metric]
+                value = round(rating[metric], 2)
                 analysis[metric] = value
                 analysis[f"{metric}_tier"] = get_tier(value)
 
