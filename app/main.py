@@ -1,14 +1,25 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from app.leetify_client import get_player_profile, get_player_matches, get_player_data
 from app.elastic_client import index_player_data
 from app.vertex_client import generate_recommendations
 from app.data_processing import analyze_player_data
+import os
 
 app = FastAPI(
     title="CS2 Training Recommender",
     version="1.0",
     description="AI-driven CS2 training"
 )
+
+# Serve React static files
+if os.path.exists("static"):
+    app.mount("/static", StaticFiles(directory="static"), name="static")
+    
+    @app.get("/")
+    async def serve_frontend():
+        return FileResponse("static/index.html")
 
 @app.get("/health")
 def health_check():
