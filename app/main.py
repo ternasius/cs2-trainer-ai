@@ -20,6 +20,12 @@ if os.path.exists("static"):
     @app.get("/")
     async def serve_frontend():
         return FileResponse("static/index.html")
+        
+    @app.get("/{full_path:path}")
+    async def serve_spa(full_path: str):
+        if full_path.startswith("api/") or full_path.startswith("health") or full_path.startswith("analyze") or full_path.startswith("player"):
+            raise HTTPException(status_code=404, detail="Not found")
+        return FileResponse("static/index.html")
 
 @app.get("/health")
 def health_check():
