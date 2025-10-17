@@ -13,6 +13,15 @@ app = FastAPI(
     description="AI-driven CS2 training"
 )
 
+# Debug: Check what files exist
+print("Current directory:", os.getcwd())
+print("Files in current directory:", os.listdir("."))
+if os.path.exists("static"):
+    print("Static directory exists")
+    print("Files in static:", os.listdir("static"))
+else:
+    print("Static directory does not exist")
+
 # Serve React static files
 if os.path.exists("static"):
     app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -20,12 +29,10 @@ if os.path.exists("static"):
     @app.get("/")
     async def serve_frontend():
         return FileResponse("static/index.html")
-        
-    @app.get("/{full_path:path}")
-    async def serve_spa(full_path: str):
-        if full_path.startswith("api/") or full_path.startswith("health") or full_path.startswith("analyze") or full_path.startswith("player"):
-            raise HTTPException(status_code=404, detail="Not found")
-        return FileResponse("static/index.html")
+else:
+    @app.get("/")
+    async def root():
+        return {"message": "CS2 Training Recommender API - Static files not found"}
 
 @app.get("/health")
 def health_check():
