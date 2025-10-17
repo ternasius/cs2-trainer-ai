@@ -8,24 +8,7 @@ function App() {
   const [error, setError] = useState('');
   const [expandedMetric, setExpandedMetric] = useState(null);
 
-  const metricNames = {
-    'aim': 'Aim',
-    'positioning': 'Positioning', 
-    'utility': 'Utility',
-    'accuracy_head': 'Headshot Accuracy',
-    'accuracy_enemy_spotted': 'Spotted Accuracy',
-    'spray_accuracy': 'Spray Accuracy',
-    'counter_strafing_good_shots_ratio': 'Counter-Strafing',
-    'preaim': 'Crosshair Placement',
-    'reaction_time_ms': 'Time to Damage',
-    'flashbang_hit_foe_per_flashbang': 'Flash Effectiveness',
-    'he_foes_damage_avg': 'Average HE Damage',
-    'utility_on_death_avg': 'Utility on Death',
-    'ct_leetify': 'CT Side Rating',
-    't_leetify': 'T Side Rating',
-    'clutch': 'Clutch',
-    'opening': 'Opening Duels'
-  };
+
 
   const metricDefinitions = {
     'aim': 'Overall aim skill rating based on accuracy, crosshair placement, and target acquisition',
