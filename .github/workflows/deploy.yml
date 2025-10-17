@@ -44,11 +44,6 @@ jobs:
       with:
         credentials_json: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
         
-    - name: Enable required APIs
-      run: |
-        gcloud services enable containerregistry.googleapis.com
-        gcloud services enable run.googleapis.com
-        
     - name: Configure Docker for GCR
       run: gcloud auth configure-docker
       
