@@ -47,6 +47,12 @@ jobs:
     - name: Configure Docker for GCR
       run: gcloud auth configure-docker
       
+    - name: Create repository
+      run: |
+        gcloud artifacts repositories create cs-project1 \
+          --repository-format=docker \
+          --location=${{ secrets.GCP_LOCATION }} || true
+      
     - name: Build and push Docker image
       run: |
         docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/cs-project1 .
