@@ -5,12 +5,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-os.environ["GOOGLE_CLOUD_PROJECT"] = os.getenv("GCP_PROJECT_ID")
-os.environ["GOOGLE_CLOUD_LOCATION"] = os.getenv("GCP_LOCATION")
-os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "True"
-# Use default service account in Cloud Run - no credentials file needed
-
-client = genai.Client()
+# Use API key authentication
+client = genai.Client(api_key=os.getenv("GCP_API_KEY"))
 
 async def generate_recommendations(analysis: dict):
     try:
