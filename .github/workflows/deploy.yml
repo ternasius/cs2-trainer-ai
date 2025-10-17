@@ -65,7 +65,10 @@ jobs:
           --platform managed \
           --region ${{ secrets.GCP_LOCATION }} \
           --allow-unauthenticated \
-          --set-env-vars ELASTIC_URL=${{ secrets.ELASTIC_URL }},ELASTIC_API_KEY=${{ secrets.ELASTIC_API_KEY }},LEETIFY_API_KEY=${{ secrets.LEETIFY_API_KEY }},LEETIFY_BASE_URL=${{ secrets.LEETIFY_BASE_URL }},GCP_PROJECT_ID=${{ secrets.GCP_PROJECT_ID }},GCP_LOCATION=${{ secrets.GCP_LOCATION }}
+          --timeout=900 \
+          --memory=1Gi \
+          --cpu=1 \
+          --set-env-vars ELASTIC_URL=${{ secrets.ELASTIC_URL }},ELASTIC_API_KEY=${{ secrets.ELASTIC_API_KEY }},LEETIFY_API_KEY=${{ secrets.LEETIFY_API_KEY }},LEETIFY_BASE_URL=${{ secrets.LEETIFY_BASE_URL }},GCP_PROJECT_ID=${{ secrets.GCP_LOCATION }},GCP_LOCATION=${{ secrets.GCP_LOCATION }}
           
     - name: Get Cloud Run URL
       run: |

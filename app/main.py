@@ -25,6 +25,10 @@ if os.path.exists("static"):
 def health_check():
     return {"status": "ok", "message": "API is running"}
 
+@app.get("/")
+async def root():
+    return {"message": "CS2 Training Recommender API"}
+
 @app.get("/analyze/{steam_id}")
 async def analyze_player(steam_id: str):
     try:
