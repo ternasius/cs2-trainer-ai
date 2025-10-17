@@ -8,7 +8,7 @@ load_dotenv()
 os.environ["GOOGLE_CLOUD_PROJECT"] = os.getenv("GCP_PROJECT_ID")
 os.environ["GOOGLE_CLOUD_LOCATION"] = os.getenv("GCP_LOCATION")
 os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "True"
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.getenv("GOOGLE_APPLICATION_CREDENTIALS", "/tmp/gcp-key.json")
+# Use default service account in Cloud Run - no credentials file needed
 
 client = genai.Client()
 
