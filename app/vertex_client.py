@@ -5,8 +5,12 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Use API key authentication
-client = genai.Client(api_key=os.getenv("GCP_API_KEY"))
+os.environ["GOOGLE_CLOUD_PROJECT"] = os.getenv("GCP_PROJECT_ID")
+os.environ["GOOGLE_CLOUD_LOCATION"] = os.getenv("GCP_LOCATION")
+os.environ["GOOGLE_GENAI_USE_VERTEXAI"] = "True"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/app/service_account.json"
+
+client = genai.Client()
 
 async def generate_recommendations(analysis: dict):
     try:
