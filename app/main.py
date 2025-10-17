@@ -18,7 +18,7 @@ def health_check():
 async def analyze_player(steam_id: str):
     try:
         player_profile, match_data = await get_player_data(steam_id)
-        analysis = await analyze_player_data(player_profile, match_data, steam_id, save_json=True)
+        analysis = await analyze_player_data(player_profile, match_data, steam_id, save_json=False)
         ai_suggestions = await generate_recommendations(analysis)
         await index_player_data(steam_id, analysis, ai_suggestions)
         return {"analysis": analysis, "recommendations": ai_suggestions}

@@ -1,0 +1,67 @@
+name: Deploy CS2 Training Recommender
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+    
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+    
+    - name: Install Python dependencies
+      run: |
+        pip install -r requirements.txt
+    
+    - name: Install Node dependencies
+      run: |
+        cd frontend
+        npm install
+    
+    - name: Build React app
+      run: |
+        cd frontend
+        npm run build
+    
+    - name: Create Google credentials file
+      run: |
+        echo '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}' > /tmp/gcp-key.json
+        
+    - name: Authenticate to Google Cloud
+      uses: google-github-actions/auth@v1
+      with:
+        credentials_json: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
+        
+    - name: Configure Docker for GCR
+      run: gcloud auth configure-docker
+      
+    - name: Build and push Docker image
+      run: |
+        docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/cs2-trainer .
+        docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/cs2-trainer
+        
+    - name: Deploy to Cloud Run
+      run: |
+        gcloud run deploy cs2-trainer \
+          --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/cs2-trainer \
+          --platform managed \
+          --region ${{ secrets.GCP_LOCATION }} \
+          --allow-unauthenticated \
+          --set-env-vars ELASTIC_URL=${{ secrets.ELASTIC_URL }},ELASTIC_API_KEY=${{ secrets.ELASTIC_API_KEY }},LEETIFY_API_KEY=${{ secrets.LEETIFY_API_KEY }},LEETIFY_BASE_URL=${{ secrets.LEETIFY_BASE_URL }},GCP_PROJECT_ID=${{ secrets.GCP_PROJECT_ID }},GCP_LOCATION=${{ secrets.GCP_LOCATION }}
+          
+    - name: Get Cloud Run URL
+      run: |
+        echo "🚀 App deployed at:"
+        gcloud run services describe cs2-trainer --region=${{ secrets.GCP_LOCATION }} --format='value(status.url)'
