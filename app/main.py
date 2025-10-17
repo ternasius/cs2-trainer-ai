@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
+from fastapi.middleware.cors import CORSMiddleware
 from app.leetify_client import get_player_profile, get_player_matches, get_player_data
 from app.elastic_client import index_player_data
 from app.vertex_client import generate_recommendations
@@ -11,6 +12,15 @@ app = FastAPI(
     title="CS2 Training Recommender",
     version="1.0",
     description="AI-driven CS2 training"
+)
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins for now
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # Debug: Check what files exist

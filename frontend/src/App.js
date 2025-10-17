@@ -249,6 +249,7 @@ function App() {
           
           <div className="input-section">
             <input
+              id="steamId"
               type="text"
               value={steamId}
               onChange={(e) => setSteamId(e.target.value)}
