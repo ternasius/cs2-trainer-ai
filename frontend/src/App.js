@@ -40,7 +40,7 @@ function App() {
     setResults(null);
 
     try {
-      const response = await fetch(`/analyze/${steamId}`);
+      const response = await fetch(`https://cs-project1-827962626003.us-central1.run.app/analyze/${steamId}`);
       const data = await response.json();
 
       if (!response.ok) {
