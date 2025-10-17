@@ -44,18 +44,23 @@ jobs:
       with:
         credentials_json: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
         
+    - name: Enable required APIs
+      run: |
+        gcloud services enable containerregistry.googleapis.com
+        gcloud services enable run.googleapis.com
+        
     - name: Configure Docker for GCR
       run: gcloud auth configure-docker
       
     - name: Build and push Docker image
       run: |
-        docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/cs2-trainer .
-        docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/cs2-trainer
+        docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/cs-project1 .
+        docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/cs-project1
         
     - name: Deploy to Cloud Run
       run: |
-        gcloud run deploy cs2-trainer \
-          --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/cs2-trainer \
+        gcloud run deploy cs-project1 \
+          --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/cs-project1 \
           --platform managed \
           --region ${{ secrets.GCP_LOCATION }} \
           --allow-unauthenticated \
@@ -64,4 +69,4 @@ jobs:
     - name: Get Cloud Run URL
       run: |
         echo "🚀 App deployed at:"
-        gcloud run services describe cs2-trainer --region=${{ secrets.GCP_LOCATION }} --format='value(status.url)'
+        gcloud run services describe cs-project1 --region=${{ secrets.GCP_LOCATION }} --format='value(status.url)'
