@@ -1,12 +1,9 @@
 from fastapi import FastAPI, HTTPException
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from app.leetify_client import get_player_profile, get_player_matches, get_player_data
 from app.elastic_client import index_player_data
 from app.vertex_client import generate_recommendations
 from app.data_processing import analyze_player_data
-import os
 
 app = FastAPI(
     title="CS2 Training Recommender",
@@ -23,26 +20,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Debug: Check what files exist
-print("Current directory:", os.getcwd())
-print("Files in current directory:", os.listdir("."))
-if os.path.exists("static"):
-    print("Static directory exists")
-    print("Files in static:", os.listdir("static"))
-else:
-    print("Static directory does not exist")
-
-# Serve React static files
-if os.path.exists("static"):
-    app.mount("/static", StaticFiles(directory="static"), name="static")
-    
-    @app.get("/")
-    async def serve_frontend():
-        return FileResponse("static/index.html")
-else:
-    @app.get("/")
-    async def root():
-        return {"message": "CS2 Training Recommender API - Static files not found"}
+@app.get("/")
+async def root():
+    return {"message": "CS2 Training Recommender API"}
 
 @app.get("/health")
 def health_check():

@@ -245,7 +245,53 @@ function App() {
       
       {!loading && !results && (
         <div className="initial-container">
+          <div className="animated-background">
+            <div className="floating-icon">🎯</div>
+            <div className="floating-icon">⚔️</div>
+            <div className="floating-icon">💣</div>
+            <div className="floating-icon">🔫</div>
+            <div className="floating-icon">💥</div>
+          </div>
+          
           <h1>🎯 CS2 Training Recommender</h1>
+          
+          <div className="feature-highlights">
+            <div className="feature-card">
+              <div className="feature-icon">🎯</div>
+              <h3>Aim Analysis</h3>
+              <p>Precision tracking and crosshair placement</p>
+            </div>
+            <div className="feature-card">
+              <div className="feature-icon">📍</div>
+              <h3>Positioning</h3>
+              <p>Map awareness and strategic positioning</p>
+            </div>
+            <div className="feature-card">
+              <div className="feature-icon">💣</div>
+              <h3>Utility Usage</h3>
+              <p>Grenade effectiveness and timing</p>
+            </div>
+          </div>
+          
+          <div className="how-it-works">
+            <h2>How It Works</h2>
+            <div className="steps">
+              <div className="step">
+                <div className="step-number">1</div>
+                <p>Enter your Steam ID</p>
+              </div>
+              <div className="step-arrow">→</div>
+              <div className="step">
+                <div className="step-number">2</div>
+                <p>AI analyzes your data</p>
+              </div>
+              <div className="step-arrow">→</div>
+              <div className="step">
+                <div className="step-number">3</div>
+                <p>Get personalized training</p>
+              </div>
+            </div>
+          </div>
           
           <div className="input-section">
             <input
